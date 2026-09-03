@@ -1,10 +1,14 @@
 {
   "name": "php-sql-strings",
   "displayName": "PHP SQL Strings",
-  "description": "Highlights SQL queries, clauses, and standalone function expressions embedded in PHP strings.",
+  "description": "Better syntax highlighting for SQL statements, fragments, subqueries, and expressions inside PHP strings.",
   "version": "1.0.0",
   "publisher": "ShimShamSam",
   "license": "UNLICENSED",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ShimShamSam/php-sql-strings.git"
+  },
   "engines": {
     "node": ">=18.0.0",
     "vscode": "^1.80.0"
