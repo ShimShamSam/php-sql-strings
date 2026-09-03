@@ -1,0 +1,226 @@
+{
+  "scopeName": "source.php",
+  "patterns": [
+    {
+      "match": "<\\?php",
+      "name": "punctuation.section.embedded.begin.php"
+    },
+    {
+      "begin": "//",
+      "end": "$",
+      "name": "comment.line.double-slash.php"
+    },
+    {
+      "include": "#heredoc"
+    },
+    {
+      "include": "#strings"
+    },
+    {
+      "match": "\\$[A-Za-z_][A-Za-z0-9_]*",
+      "name": "variable.other.php"
+    }
+  ],
+  "repository": {
+    "interpolation": {
+      "patterns": [
+        {
+          "include": "#interpolation_double_quoted"
+        }
+      ]
+    },
+    "interpolation_double_quoted": {
+      "patterns": [
+        {
+          "match": "\\\\\"",
+          "name": "constant.character.escape.php"
+        },
+        {
+          "match": "\\$[A-Za-z_][A-Za-z0-9_]*",
+          "name": "variable.other.php"
+        }
+      ]
+    },
+    "strings": {
+      "patterns": [
+        {
+          "begin": "\"\\s*(?=(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|AND|WITH)\\b)",
+          "contentName": "source.sql.embedded.php",
+          "end": "\"",
+          "name": "string.quoted.double.sql.php",
+          "patterns": [
+            {
+              "include": "source.sql"
+            }
+          ]
+        },
+        {
+          "begin": "'\\s*(?=(SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|AND|WITH)\\b)",
+          "contentName": "source.sql.embedded.php",
+          "end": "'",
+          "name": "string.quoted.single.sql.php",
+          "patterns": [
+            {
+              "include": "source.sql"
+            }
+          ]
+        },
+        {
+          "begin": "\"",
+          "end": "\"",
+          "name": "string.quoted.double.php",
+          "patterns": [
+            {
+              "include": "#interpolation_double_quoted"
+            }
+          ]
+        },
+        {
+          "begin": "'",
+          "end": "'",
+          "name": "string.quoted.single.php",
+          "patterns": [
+            {
+              "match": "\\\\[\\\\']",
+              "name": "constant.character.escape.php"
+            }
+          ]
+        }
+      ]
+    },
+    "heredoc": {
+      "patterns": [
+        {
+          "begin": "(?i)(?=<<<[\\t ]*(\"?)([A-Z_][A-Z0-9_]*)(\\1)[\\t ]*$)",
+          "end": "(?!\\G)",
+          "name": "string.unquoted.heredoc.php",
+          "patterns": [
+            {
+              "include": "#heredoc_interior"
+            }
+          ]
+        },
+        {
+          "begin": "(?i)(?=<<<[\\t ]*'([A-Z_][A-Z0-9_]*)'[\\t ]*$)",
+          "end": "(?!\\G)",
+          "name": "string.unquoted.nowdoc.php",
+          "patterns": [
+            {
+              "include": "#nowdoc_interior"
+            }
+          ]
+        }
+      ]
+    },
+    "heredoc_interior": {
+      "patterns": [
+        {
+          "begin": "(<<<)[\\t ]*(\"?)([DS]QL)(\\2)([\\t ]*)$",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.embedded.begin.php"
+            },
+            "1": {
+              "name": "punctuation.definition.string.php"
+            },
+            "3": {
+              "name": "keyword.operator.heredoc.php"
+            }
+          },
+          "contentName": "source.sql",
+          "end": "^[\\t ]*(\\3)(?![A-Za-z0-9_])",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.embedded.end.php"
+            },
+            "1": {
+              "name": "keyword.operator.heredoc.php"
+            }
+          },
+          "name": "meta.embedded.sql",
+          "patterns": [
+            {
+              "include": "#interpolation"
+            },
+            {
+              "include": "source.sql"
+            }
+          ]
+        },
+        {
+          "begin": "(?i)(<<<)[\\t ]*(\"?)([A-Z_][A-Z0-9_]*)(\\2)[\\t ]*$",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.php"
+            },
+            "3": {
+              "name": "keyword.operator.heredoc.php"
+            }
+          },
+          "end": "^[\\t ]*(\\3)(?![A-Za-z0-9_])",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.operator.heredoc.php"
+            }
+          },
+          "patterns": [
+            {
+              "include": "#interpolation"
+            }
+          ]
+        }
+      ]
+    },
+    "nowdoc_interior": {
+      "patterns": [
+        {
+          "begin": "(<<<)[\\t ]*'([DS]QL)'([\\t ]*)$",
+          "beginCaptures": {
+            "0": {
+              "name": "punctuation.section.embedded.begin.php"
+            },
+            "1": {
+              "name": "punctuation.definition.string.php"
+            },
+            "2": {
+              "name": "keyword.operator.nowdoc.php"
+            }
+          },
+          "contentName": "source.sql",
+          "end": "^[\\t ]*(\\2)(?![A-Za-z0-9_])",
+          "endCaptures": {
+            "0": {
+              "name": "punctuation.section.embedded.end.php"
+            },
+            "1": {
+              "name": "keyword.operator.nowdoc.php"
+            }
+          },
+          "name": "meta.embedded.sql",
+          "patterns": [
+            {
+              "include": "source.sql"
+            }
+          ]
+        },
+        {
+          "begin": "(?i)(<<<)[\\t ]*'([A-Z_][A-Z0-9_]*)'[\\t ]*$",
+          "beginCaptures": {
+            "1": {
+              "name": "punctuation.definition.string.php"
+            },
+            "2": {
+              "name": "keyword.operator.nowdoc.php"
+            }
+          },
+          "end": "^[\\t ]*(\\2)(?![A-Za-z0-9_])",
+          "endCaptures": {
+            "1": {
+              "name": "keyword.operator.nowdoc.php"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

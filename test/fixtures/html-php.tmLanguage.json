@@ -1,0 +1,25 @@
+{
+  "scopeName": "text.html.php",
+  "patterns": [
+    {
+      "begin": "<\\?php",
+      "beginCaptures": {
+        "0": {
+          "name": "punctuation.section.embedded.begin.php"
+        }
+      },
+      "contentName": "source.php",
+      "end": "\\?>",
+      "endCaptures": {
+        "0": {
+          "name": "punctuation.section.embedded.end.php"
+        }
+      },
+      "patterns": [
+        {
+          "include": "source.php"
+        }
+      ]
+    }
+  ]
+}

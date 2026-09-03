@@ -1,0 +1,54 @@
+{
+  "name": "php-sql-strings",
+  "displayName": "PHP SQL Strings",
+  "description": "Highlights SQL queries, clauses, and standalone function expressions embedded in PHP strings.",
+  "version": "1.0.0",
+  "publisher": "ShimShamSam",
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=18.0.0",
+    "vscode": "^1.80.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "keywords": [
+    "php",
+    "sql",
+    "embedded",
+    "fragments",
+    "sql functions",
+    "syntax highlighting",
+    "textmate"
+  ],
+  "contributes": {
+    "grammars": [
+      {
+        "scopeName": "php.sql-strings.injection",
+        "path": "./syntaxes/php-sql-strings.tmLanguage.json",
+        "injectTo": [
+          "text.html.php",
+          "source.php"
+        ],
+        "embeddedLanguages": {
+          "source.sql.embedded.php": "sql"
+        },
+        "tokenTypes": {
+          "source.sql.embedded.php": "other"
+        }
+      }
+    ]
+  },
+  "scripts": {
+    "build": "npm run update:sql-grammar && npm run build:grammar",
+    "update:sql-grammar": "node scripts/update-sql-grammar.mjs",
+    "build:grammar": "node scripts/build-grammar.mjs",
+    "check:grammar": "node scripts/build-grammar.mjs --check",
+    "pretest": "npm run check:grammar",
+    "test": "node --test"
+  },
+  "devDependencies": {
+    "vscode-oniguruma": "^2.0.1",
+    "vscode-textmate": "^9.2.0"
+  }
+}
